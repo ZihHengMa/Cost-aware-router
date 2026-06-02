@@ -5,7 +5,7 @@ It focuses on workloads with repeated prompt prefixes, where routing can trade o
 
 ## Features
 
-- 2 simulated vLLM workers with per-worker prefix caches
+- 2 real vLLM workers, one per GPU
 - 1 FastAPI router
 - token-based prefix hashing
 - round-robin baseline
@@ -18,8 +18,7 @@ It focuses on workloads with repeated prompt prefixes, where routing can trade o
 - repeated-prefix benchmark workload
 - TTFT, latency, cache-hit, and load-imbalance evaluation
 
-The default implementation is simulation-based so it runs on a laptop or class server without GPUs.
-The worker API is intentionally simple HTTP, so real vLLM OpenAI-compatible servers can replace the simulated workers later.
+This project is intended to run with real vLLM OpenAI-compatible servers using `/mnt/data1/llm_team/Qwen2.5-7B-Instruct`.
 
 ## Architecture
 
@@ -30,13 +29,16 @@ benchmark client
 FastAPI router :8000
   |      |
   v      v
-worker-0 :8100     worker-1 :8101
+adapter-0 :8100     adapter-1 :8101
+      |                    |
+      v                    v
+vLLM GPU-0 :8200      vLLM GPU-1 :8201
 ```
 
 The router also maintains a SQLite request metadata table at `data/router_metadata.sqlite` by default.
 Each completed request is inserted into `request_metadata` with its prompt, prompt hash, prefix hash, selected worker, routing policy, estimated prefix hit, queue depth, TTFT, latency, and cache-hit result.
 
-Each request prompt is split into deterministic toy tokens. The router computes prefix-hash candidates against its cache view:
+Each request prompt is split into deterministic routing tokens. The router computes prefix-hash candidates against its cache view while vLLM serves the real model:
 
 - `round_robin`: alternate workers.
 - `least_queue`: choose the worker with the smallest observed queue.
@@ -57,33 +59,54 @@ pip install -e .
 chmod +x scripts/*.sh
 ```
 
-## Run One Experiment
-
-Terminal 1:
+Install the vLLM stack for this machine:
 
 ```bash
 source .venv/bin/activate
-./scripts/run_workers.sh
+uv pip install --python .venv/bin/python --reinstall \
+  'https://github.com/vllm-project/vllm/releases/download/v0.10.0/vllm-0.10.0+cu126-cp38-abi3-manylinux1_x86_64.whl' \
+  --extra-index-url https://download.pytorch.org/whl/cu126 \
+  --index-strategy unsafe-best-match
+
+uv pip install --python .venv/bin/python --reinstall \
+  'transformers==4.53.2' 'tokenizers>=0.21.1,<0.22' \
+  'huggingface-hub>=0.33.0,<1.0' 'numpy>=2.0,<2.3'
 ```
 
-Terminal 2:
+## Run One Experiment
+
+Terminal 1, start two vLLM servers:
+
+```bash
+source .venv/bin/activate
+VLLM_ENABLE_PREFIX_CACHING=1 ./scripts/run_vllm_servers.sh
+```
+
+Terminal 2, start the router-compatible adapters:
+
+```bash
+source .venv/bin/activate
+ADAPTER_ENABLE_PREFIX_CACHE=1 ./scripts/run_vllm_adapters.sh
+```
+
+Terminal 3, start the router:
 
 ```bash
 source .venv/bin/activate
 ./scripts/run_router.sh cost_aware
 ```
 
-Terminal 3:
+Terminal 4, run the benchmark:
 
 ```bash
 source .venv/bin/activate
-python -m cost_aware_router.benchmark --label cost_aware --requests 80 --concurrency 8
+python -m cost_aware_router.benchmark --label qwen25_cost_aware --requests 80 --concurrency 8 --max-tokens 32
 ```
 
 Results are written to:
 
-- `results/cost_aware_raw.csv`
-- `results/cost_aware_summary.csv`
+- `results/qwen25_cost_aware_raw.csv`
+- `results/qwen25_cost_aware_summary.csv`
 
 Router request metadata is stored in:
 
@@ -98,23 +121,23 @@ sqlite3 data/router_metadata.sqlite 'select request_id, worker_id, route_policy,
 
 ## Compare Policies
 
-Restart the router for each policy:
+Keep the two vLLM servers and adapters running, then restart the router for each policy:
 
 ```bash
 ./scripts/run_router.sh round_robin
-python -m cost_aware_router.benchmark --label round_robin
+python -m cost_aware_router.benchmark --label qwen25_round_robin --requests 80 --concurrency 8 --max-tokens 32
 
 ./scripts/run_router.sh least_queue
-python -m cost_aware_router.benchmark --label least_queue
+python -m cost_aware_router.benchmark --label qwen25_least_queue --requests 80 --concurrency 8 --max-tokens 32
 
 ./scripts/run_router.sh cache_aware
-python -m cost_aware_router.benchmark --label cache_aware
+python -m cost_aware_router.benchmark --label qwen25_cache_aware --requests 80 --concurrency 8 --max-tokens 32
 
 ./scripts/run_router.sh cost_aware
-python -m cost_aware_router.benchmark --label cost_aware
+python -m cost_aware_router.benchmark --label qwen25_cost_aware --requests 80 --concurrency 8 --max-tokens 32
 
 ./scripts/run_router.sh prefill_scratch
-python -m cost_aware_router.benchmark --label prefill_scratch
+python -m cost_aware_router.benchmark --label qwen25_prefill_scratch --requests 80 --concurrency 8 --max-tokens 32
 ```
 
 Then plot summaries:
@@ -262,21 +285,7 @@ In the report, treat this as a model of an LMCache-style shared backend: cached 
 
 Use this comparison when you want to show the benefit of your cost-aware infrastructure against a baseline where every request must prefill from scratch.
 
-For simulated workers:
-
-```bash
-./scripts/run_workers.sh
-./scripts/run_router.sh cost_aware
-python -m cost_aware_router.benchmark --label cost_aware
-
-# Restart the router with scratch policy.
-./scripts/run_router.sh prefill_scratch
-python -m cost_aware_router.benchmark --label prefill_scratch
-
-python -m cost_aware_router.analyze --results-dir results --output results/cost_aware_vs_scratch.png
-```
-
-For real vLLM, run the two experiments separately:
+Run the two experiments separately:
 
 Cost-aware with prefix caching:
 
@@ -304,24 +313,11 @@ python -m cost_aware_router.analyze --results-dir results --output results/qwen2
 
 In `request_metadata`, the scratch baseline should show `estimated_prefix_hit_tokens = 0`, `cache_hit_tokens = 0`, and `estimated_prefill_tokens = prompt_tokens`.
 
-## Real vLLM on Two GPUs
+## vLLM on Two GPUs
 
-The project can run two real vLLM instances using `/mnt/data1/llm_team/Qwen2.5-7B-Instruct`, one process per GPU.
+The project runs two real vLLM instances using `/mnt/data1/llm_team/Qwen2.5-7B-Instruct`, one process per GPU.
 The router still talks to worker adapters on ports `8100` and `8101`; each adapter forwards requests to one vLLM OpenAI-compatible server and measures actual streaming TTFT.
-
-Install vLLM first if it is not already available. On this machine, use the CUDA 12.6 vLLM wheel because the NVIDIA driver reports CUDA 12.7 support, not CUDA 13:
-
-```bash
-source .venv/bin/activate
-uv pip install --python .venv/bin/python --reinstall \
-  'https://github.com/vllm-project/vllm/releases/download/v0.10.0/vllm-0.10.0+cu126-cp38-abi3-manylinux1_x86_64.whl' \
-  --extra-index-url https://download.pytorch.org/whl/cu126 \
-  --index-strategy unsafe-best-match
-
-uv pip install --python .venv/bin/python --reinstall \
-  'transformers==4.53.2' 'tokenizers>=0.21.1,<0.22' \
-  'huggingface-hub>=0.33.0,<1.0' 'numpy>=2.0,<2.3'
-```
+Use the setup commands above before starting the servers.
 
 Terminal 1, start vLLM on GPU 0 and GPU 1:
 
