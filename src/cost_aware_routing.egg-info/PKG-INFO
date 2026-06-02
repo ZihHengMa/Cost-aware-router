@@ -1,0 +1,13 @@
+Metadata-Version: 2.4
+Name: cost-aware-routing
+Version: 0.1.0
+Summary: Cost-aware routing for two vLLM workers with prefix-cache-aware baselines and benchmarks.
+Requires-Python: >=3.10
+Requires-Dist: fastapi>=0.110
+Requires-Dist: uvicorn[standard]>=0.27
+Requires-Dist: httpx>=0.26
+Requires-Dist: pydantic>=2.6
+Requires-Dist: numpy>=1.26
+Requires-Dist: pandas>=2.2
+Requires-Dist: matplotlib>=3.8
+Requires-Dist: rich>=13.7

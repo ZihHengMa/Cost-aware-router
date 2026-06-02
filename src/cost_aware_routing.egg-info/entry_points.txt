@@ -1,0 +1,5 @@
+[console_scripts]
+car-analyze = cost_aware_router.analyze:main
+car-benchmark = cost_aware_router.benchmark:main
+car-router = cost_aware_router.router:main
+car-worker = cost_aware_router.worker:main

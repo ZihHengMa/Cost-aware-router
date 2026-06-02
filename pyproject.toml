@@ -1,0 +1,24 @@
+[project]
+name = "cost-aware-routing"
+version = "0.1.0"
+description = "Cost-aware routing for two vLLM workers with prefix-cache-aware baselines and benchmarks."
+requires-python = ">=3.10"
+dependencies = [
+  "fastapi>=0.110",
+  "uvicorn[standard]>=0.27",
+  "httpx>=0.26",
+  "pydantic>=2.6",
+  "numpy>=1.26",
+  "pandas>=2.2",
+  "matplotlib>=3.8",
+  "rich>=13.7",
+]
+
+[project.scripts]
+car-router = "cost_aware_router.router:main"
+car-worker = "cost_aware_router.worker:main"
+car-benchmark = "cost_aware_router.benchmark:main"
+car-analyze = "cost_aware_router.analyze:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
