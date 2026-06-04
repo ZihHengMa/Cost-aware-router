@@ -1,0 +1,115 @@
+cache_hit_tokens,client_wall_ms,generated_tokens,latency_ms,partial_match,prompt_tokens,queue_depth_at_start,request_id,route_cost,route_policy,text,ttft_ms,worker_id
+88,695.4725559917279,32,620.1809310005046,False,88,0,427ea078-bddc-4c60-8b8f-22b9648b08f5,88.0,least_queue, 0 req0 variant 0 req0 variant 0 req0 variant 0 req0 variant 0 req0 variant 0 req0 variant 0,33.601142989937216,worker-0
+88,791.1599639919586,32,634.992573002819,False,88,4,e523ee2f-d421-4b05-ac9e-f814895c073d,88.0,least_queue, 1 req1 variant 1 req1 variant 1 req1 variant 1 req1 variant 1 req1 variant 1 req1 variant 1,50.01569999149069,worker-0
+88,791.8161370034795,32,635.5057790060528,False,88,3,1e6a9bbf-c10b-4d60-af73-45fe7adc178b,88.0,least_queue, 2 req2 variant 2 req2 variant 2 req2 variant 2 req2 variant 2 req2 variant 2 req2 variant 2,50.58536198339425,worker-0
+88,790.8886120130774,32,637.4194449745119,False,88,2,d6293862-e714-4583-8f50-0538b7fd0724,88.0,least_queue, 3 req3 variant 3 req3 variant 3 req3 variant 3 req3 variant 3 req3 variant 3 req3 variant 3,52.310241997474805,worker-0
+88,790.7595379801933,32,633.091584983049,False,88,7,9d31762a-8e2d-4fa2-bae5-9bbd8ad21615,88.0,least_queue, 4 req4 variant 4 req4 variant 4 req4 variant 4 req4 variant 4 req4 variant 4 req4 variant 4,48.05277899140492,worker-0
+88,790.120020014001,32,633.7635529926047,False,88,6,62274475-5f32-4b28-b007-7ad1ff2d3c66,88.0,least_queue," 5 req5 variant 5 req5 variant 5
+
+It seems like you're asking about a specific aspect of machine learning inference, particularly related to prefix",48.622882983181626,worker-0
+88,791.5795480075758,32,633.8307650003117,False,88,5,14262b2f-4282-455f-8da5-d111aa2b932d,88.0,least_queue, 6 req6 variant 6 req6 variant 6 req6 variant 6 req6 variant 6 req6 variant 6 req6 variant 6,49.113966000732034,worker-0
+88,791.4495110162534,32,638.6965280107688,False,88,1,733b92bc-e3ad-42c5-9b20-a6e7a3f746b7,88.0,least_queue, 7 req7 variant 7 req7 variant 7 req7 variant 7 req7 variant 7 req7 variant 7 req7 variant 7,53.50376802380197,worker-0
+88,859.8270549846347,32,610.7235710078385,False,88,0,c205af6e-b451-44e8-a7c9-5007a13f9898,-152.0,least_queue, 8 req8 variant 8 req8 variant 8 req8 variant 8 req8 variant 8 req8 variant 8 req8 variant 8,24.743300018599257,worker-0
+88,762.0133189775515,32,619.4732589938212,False,88,3,78c1798a-9528-4b3c-978a-97e4dfc18d3e,-152.0,least_queue, 9 req9 variant 9 req9 variant 9 req9 variant 9 req9 variant 9 req9 variant 9 req9 variant 9,33.97067199693993,worker-0
+0,651.3563619810157,32,581.7556580004748,False,88,0,c3bad25f-208f-4b57-9e64-51a9e2058913,88.0,least_queue," 10 req10 variant 10
+
+Certainly! Let's break down the key concepts related to operating systems, specifically focusing on queues, semaph",51.85361101757735,worker-1
+88,762.7589479961898,32,618.7447170086671,False,88,4,38191b0d-6ad0-45a1-b28d-418979a6a6a5,-152.0,least_queue, 11 req11 variant 11 req11 variant 11 req11 variant 11 req11 variant 11 req,33.01744899363257,worker-0
+0,761.7739980050828,32,592.5705120025668,False,88,2,79cc14e1-5c39-4a82-9c04-a835ddccaac9,88.0,least_queue, 12 req12 variant 12 req12 variant 12 req12 variant 12 req12 variant 12 req,72.04532300238498,worker-1
+0,762.3459430178627,32,593.5772260127123,False,88,1,cebd30fc-f5b8-49bc-b195-34c9322c5432,88.0,least_queue, 13 req13 variant 13 req13 variant 13 req13 variant 13 req13 variant 13 req,72.83834400004707,worker-1
+88,761.3784790155478,32,622.8380600223318,False,88,1,abc724aa-c930-4871-8df5-738b9a9e9bf6,-152.0,least_queue," 14 req14 variant 14 req14 variant 14
+
+# Operating Systems: Queue, Semaphore, Thread, Process, Memory,",37.41477301809937,worker-0
+88,762.1587699977681,32,620.8292100054678,False,88,2,e55f7b01-63ca-4e9f-b172-18249733e9b4,-152.0,least_queue, 15 req15 variant 15 req15 variant 15 req15 variant 15 req15 variant 15 req,35.06609902251512,worker-0
+88,815.1607280015014,32,607.8950189985335,False,88,0,7d967792-00cd-491b-a090-8924cbc6eb30,-152.0,least_queue, 16 req16 variant 16 req16 variant 16 req16 variant 16 req16 variant 16 req,36.765941011253744,worker-0
+80,679.8016739776358,32,561.3177820050623,True,88,4,f0001aa2-b1a0-464d-b41b-e0c2a4076245,-152.0,least_queue, 0 req17 variant 0 req17 variant 0 req17 variant 0 req17 variant 0 req17 variant 0,42.68393502570689,worker-1
+80,679.9410350213293,32,560.9949739882722,True,88,5,e9fc16ec-2c61-42a9-bb9a-ddcee9c5b454,-152.0,least_queue," 1 req18 variant 1 req18 variant 1 req18 variant 1
+
+# Operating Systems: Queue, Semaphore, Thread, Process",42.28953900747001,worker-1
+0,679.8753350158222,32,564.4562320085242,False,88,1,1882ed89-94eb-4f46-bb7f-8e98b693c1d7,88.0,least_queue, 2 req19 variant 2 req19 variant 2 req19 variant 2 req19 variant 2 req19 variant 2,45.7889839890413,worker-1
+80,679.649233003147,32,562.5225859985221,True,88,3,5c74607d-585e-4413-a823-5ddb2830e81d,-152.0,least_queue, 3 req20 variant 3 req20 variant 3 req20 variant 3 req20 variant 3 req20 variant 3,43.77474598004483,worker-1
+80,680.0417369813658,32,563.593947008485,True,88,2,8696dcaa-e715-42e8-a0ba-e348b89aec11,-152.0,least_queue, 4 req21 variant 4 req21 variant 4 req21 variant 4 req21 variant 4 req21 variant 4,44.83208598685451,worker-1
+80,610.248491022503,32,549.1771929955576,True,88,0,27344ee4-6d40-4512-90ec-bbea1432b07f,-152.0,least_queue, 5 req22 variant 5 req22 variant 5 req22 variant 5 req22 variant 5 req22 variant 5,25.405541993677616,worker-1
+88,703.6441900127102,32,602.2202219755854,False,88,1,c99fc3ff-aef7-4412-aab1-db8798b2349e,-144.0,least_queue, 6 req23 variant 6 req23 variant 6 req23 variant 6 req23 variant 6 req23 variant 6,33.64763199351728,worker-0
+88,747.6491050038021,32,630.3504070092458,False,88,3,e2932a01-2be8-4646-9c2f-15b37fb64ff1,-152.0,least_queue, 7 req24 variant 7 req24 variant 7 req24 variant 7 req24 variant 7 req24 variant 7,45.72985501727089,worker-0
+88,743.4772230044473,32,631.8163659889251,False,88,1,54ba88eb-6341-474c-98aa-741358581175,-152.0,least_queue, 8 req25 variant 8 req25 variant 8 req25 variant 8 req25 variant 8 req25 variant 8,46.94310200284235,worker-0
+88,744.4465789885726,32,629.5108769845683,False,88,5,0fe40bb7-6341-4e3b-8f3e-4087fed1f0eb,-152.0,least_queue, 9 req26 variant 9 req26 variant 9 req26 variant 9 req26 variant 9 req26 variant 9,44.69524999149144,worker-0
+88,746.1727710033301,32,630.1819929794874,False,88,4,22aecb2f-affe-495f-bd79-d8ca55b70f71,-152.0,least_queue, 10 req27 variant 10 req27 variant 10 req27 variant 10 req27 variant 10 req,45.42032699100673,worker-0
+88,744.0118609811179,32,631.3205260084942,False,88,2,594a1cb9-e5b1-418c-9bb1-655e2dff40fd,-152.0,least_queue, 11 req28 variant 11 req28 variant 11 req28 variant 11 req28 variant 11 req,46.40946400468238,worker-0
+88,746.1057890031952,32,628.9600640011486,False,88,6,81b9cf40-2d8b-46cf-843f-331844ad4257,-152.0,least_queue," 12 req29 variant 12 req29 variant 12
+
+It seems like you're asking about a specific aspect of machine learning inference",44.18828300549649,worker-0
+88,635.9673870028928,32,613.1558000051882,False,88,0,50cac644-f709-4e3d-bf90-ab6db87bf745,-152.0,least_queue, 13 req30 variant 13 req30 variant 13 req30 variant 13 req30 variant 13 req,26.381678006146103,worker-0
+80,572.8144280146807,32,524.0847949753515,True,88,0,68e34a99-d970-4340-b391-610af436ff67,-152.0,least_queue, 14 req31 variant 14 req31 variant 14 req31 variant 14 req31 variant 14 req,26.457913976628333,worker-1
+80,578.9389550045598,32,539.6305870090146,True,88,0,f99775a2-95c8-467a-bdb8-fd1313a6d9a4,-152.0,least_queue, 15 req32 variant 15 req32 variant 15 req32 variant 15 req32 variant 15 req,23.177199997007847,worker-1
+80,559.7450829809532,32,544.3033479969017,True,88,1,093895ab-80ca-40fd-a38f-10815382e576,-144.0,least_queue, 16 req33 variant 16 req33 variant 16 req33 variant 16 req33 variant 16 req,26.736505998997018,worker-1
+88,700.999647990102,32,611.876223993022,False,88,0,55b4965c-fda3-465e-8f1a-7ebc5c426a5d,-152.0,least_queue," 0 req34 variant 0 req34 variant 0
+
+It seems like you're asking about a specific variant of a problem or question related to",24.88049800740555,worker-0
+88,687.6945359981619,32,612.3961000121199,False,88,4,cfdfd1eb-1a10-4c7e-9491-5239360fa880,-144.0,least_queue, 1 req35 variant 1 req35 variant 1 req35 variant 1 req35 variant 1 req35 variant 1,27.490316017065197,worker-0
+88,687.5497269793414,32,616.1488180223387,False,88,1,43dcd761-8d81-4495-8a7c-8496c9ec31e1,-144.0,least_queue, 2 req36 variant 2 req36 variant 2 req36 variant 2 req36 variant 2 req36 variant 2,30.873495008563623,worker-0
+88,687.2402389999479,32,615.3369589883368,False,88,2,dfc86f61-175b-4da9-9955-f9480356f23d,-144.0,least_queue, 3 req37 variant 3 req37 variant 3 req37 variant 3 req37 variant 3 req37 variant 3,29.98389900312759,worker-0
+88,684.712183981901,32,613.6386199796107,False,88,3,e3b0541d-6730-48dc-b3ae-a83cc4c14d48,-144.0,least_queue," 4 req38 variant 4 req38 variant 4 req38 variant 4
+
+It seems like you're asking about a specific problem or",28.19775597890839,worker-0
+80,615.4509629996028,32,559.024001006037,True,88,2,3b73bebd-ec01-41a5-b85a-04a1377eae68,-136.0,least_queue, 5 req39 variant 5 req39 variant 5 req39 variant 5 req39 variant 5 req39 variant 5,40.59037799015641,worker-1
+80,583.0008120101411,32,543.7922540004365,True,88,2,840b604a-bf09-44ec-822f-1b7059486798,-136.0,least_queue, 6 req40 variant 6 req40 variant 6 req40 variant 6 req40 variant 6 req40 variant 6,28.065657010301948,worker-1
+80,565.5570570088457,32,547.8819319978356,True,88,2,7dac4b2f-2101-4831-b5ba-d5f6917cd10c,-136.0,least_queue, 7 req41 variant 7 req41 variant 7 req41 variant 7 req41 variant 7 req41 variant 7,35.67983800894581,worker-1
+88,729.0204770106357,32,612.765419005882,False,88,0,79f389f9-3d8c-460e-afe9-bf43650bef55,-152.0,least_queue, 8 req42 variant 8 req42 variant 8 req42 variant 8 req42 variant 8 req42 variant 8,24.940668023191392,worker-0
+88,802.1403860184364,32,630.191856995225,False,88,1,434b70ba-a42b-4736-ae23-ed0202101fe7,-152.0,least_queue, 9 req43 variant 9 req43 variant 9 req43 variant 9 req43 variant 9 req43 variant 9,44.98436697758734,worker-0
+88,749.3301980139222,32,622.1963790012524,False,88,3,7633d79c-c200-4f06-8225-b8339f1dfc30,-136.0,least_queue, 10 req44 variant 10 req44 variant 10 req44 variant 10 req44 variant 10 req,36.978693009587005,worker-0
+88,747.2335140046198,32,621.2377790070605,False,88,4,ef10dac3-eb93-496f-bd0f-2db394cc657b,-136.0,least_queue," 11 req45 variant 11 req45 variant 11
+
+It seems like you're asking about a specific aspect of machine learning inference",36.11098101828247,worker-0
+88,748.7362189858686,32,621.5535470109899,False,88,5,57af7934-6ca8-49e0-9788-dfd78de726f8,-136.0,least_queue, 12 req46 variant 12 req46 variant 12 req46 variant 12 req46 variant 12 req,36.227096017682925,worker-0
+88,750.0907290086616,32,623.8329659972806,False,88,2,29e8e96f-8ce5-41ef-b7f0-b122d37ce78a,-136.0,least_queue, 13 req47 variant 13 req47 variant 13 req47 variant 13 req47 variant 13 req,38.57226500986144,worker-0
+80,582.3780079954304,32,541.0836950177327,True,88,1,ab02f6d3-f5b0-49f5-9d23-89056a221b19,-144.0,least_queue, 14 req48 variant 14 req48 variant 14 req48 variant 14 req48 variant 14 req,24.115820007864386,worker-1
+80,573.6761020089034,32,548.2518810022157,True,88,1,02b77cb6-f0da-42c3-8541-5ed567ab0bb4,-144.0,least_queue," 15 req49 variant 15 req49 variant 15
+
+It seems like you're asking about a specific aspect of machine learning inference",32.45284501463175,worker-1
+88,721.3193540228531,32,612.629242008552,False,88,0,77cde386-73b5-4444-90dc-bc35eeab582b,-152.0,least_queue," 16 req50 variant 16
+
+It seems like you're asking about a specific topic related to operating systems, but the question is cut off",35.08833301020786,worker-0
+88,662.3044369916897,32,613.7289569887798,False,88,4,78069f9c-385e-4fe5-86ed-c4bbddfe3e66,-144.0,least_queue, 0 req51 variant 0 req51 variant 0 req51 variant 0 req51 variant 0 req51 variant 0,40.41102700284682,worker-0
+88,686.2654130090959,32,617.9169729875866,False,88,1,bb54261b-c545-4750-a6f7-e39b4d8d5f7b,-144.0,least_queue, 1 req52 variant 1 req52 variant 1 req52 variant 1 req52 variant 1 req52 variant 1,43.78490199451335,worker-0
+80,607.8694100142457,32,550.9163429960608,True,88,2,64a1b974-96fd-4ffc-9d1d-b3590d05dfc3,-136.0,least_queue," 2 req53 variant 2 req53 variant 2
+
+It seems like you're asking about a specific aspect of machine learning inference, particularly related",34.122071985621005,worker-1
+88,660.9863529738504,32,616.0431680036709,False,88,2,84f55e54-4783-4639-ad0f-438be2acd3da,-144.0,least_queue, 3 req54 variant 3 req54 variant 3 req54 variant 3 req54 variant 3 req54 variant 3,42.93498501647264,worker-0
+88,684.409303998109,32,614.8838140070438,False,88,3,d2f8acba-2568-417b-8057-07adb27b78b8,-144.0,least_queue, 4 req55 variant 4 req55 variant 4 req55 variant 4 req55 variant 4 req55 variant 4,41.13970001344569,worker-0
+80,608.0045239941683,32,559.2856370203663,True,88,1,c6f57b12-42c7-486f-b1c9-55b65240433f,-144.0,least_queue, 5 req56 variant 5 req56 variant 5 req56 variant 5 req56 variant 5 req56 variant 5,40.5442490009591,worker-1
+80,590.425235015573,32,558.2728550070897,True,88,2,a7c06b47-f6ea-41b0-9b74-443d0b2fcf61,-144.0,least_queue," 6 req57 variant 6 req57 variant 6
+
+It seems like you're asking about a specific variant of a machine learning model or task",39.506479020928964,worker-1
+80,586.2505369877908,32,544.7204580123071,True,88,2,bdc50110-17b6-4f06-96ef-3b14deb740b3,-136.0,least_queue, 7 req58 variant 7 req58 variant 7 req58 variant 7 req58 variant 7 req58 variant 7,24.873737012967467,worker-1
+80,626.352046005195,32,556.7168290144764,True,88,3,c2db11c6-511e-47f2-9eed-9f778d1c6edb,-128.0,least_queue, 8 req59 variant 8 req59 variant 8 req59 variant 8 req59 variant 8 req59 variant 8,37.35644501284696,worker-1
+88,658.9915840013418,32,608.9921779930592,False,88,0,928b5eaf-be78-4ac8-9170-278048546286,-152.0,least_queue, 9 req60 variant 9 req60 variant 9 req60 variant 9 req60 variant 9 req60 variant 9,24.465909984428436,worker-0
+88,731.3577019958757,32,627.0962519920431,False,88,3,1b6ffadd-d575-4e92-8869-20167dafd1f0,-152.0,least_queue, 10 req61 variant 10 req61 variant 10 req61 variant 10 req61 variant 10 req,41.03984800167382,worker-0
+88,706.1120420112275,32,627.829211007338,False,88,1,7da51126-7819-4c6f-92a9-ffa203cf3a47,-152.0,least_queue," 11 req62 variant 11 req62 variant 11
+
+It seems like you're asking about a specific operating system question or problem",42.27189300581813,worker-0
+88,654.2516220069956,32,626.1215179983992,False,88,2,84339117-b7a1-4622-ab24-ac3017acafa1,-152.0,least_queue, 12 req63 variant 12 req63 variant 12 req63 variant 12 req63 variant 12 req,41.54341100365855,worker-0
+80,625.8424760017078,32,555.2501599886455,True,88,2,136eb51a-ea84-4993-9c09-c154e63a4bf7,-136.0,least_queue, 13 req64 variant 13 req64 variant 13 req64 variant 13 req64 variant 13 req,34.85249599907547,worker-1
+80,626.6275339876302,32,554.1736010054592,True,88,3,8cadaf86-e211-4699-815e-b4687870f819,-136.0,least_queue," 14 req65 variant 14 req65 variant 14
+
+It seems like you're asking about a specific aspect of machine learning inference",34.155041008489206,worker-1
+80,581.425987998955,32,541.3795519853011,True,88,3,fcfef8fd-d045-49fc-8d71-bd92c9ac6e8d,-128.0,least_queue, 15 req66 variant 15 req66 variant 15 req66 variant 15 req66 variant 15 req,26.61860699299723,worker-1
+80,562.3602790001314,32,545.0895160029177,True,88,3,3a6d1325-c622-4402-a772-f9f3b2a1c2c3,-128.0,least_queue, 16 req67 variant 16 req67 variant 16 req67 variant 16 req67 variant 16 req,32.391151995398104,worker-1
+88,653.0466080002952,32,611.8452450027689,False,88,2,60eb9d5b-f18d-44fa-84db-c815923d81dd,-128.0,least_queue, 0 req68 variant 0 req68 variant 0 req68 variant 0 req68 variant 0 req68 variant 0,26.338252995628864,worker-0
+88,684.6659810107667,32,616.1241899826564,False,88,1,9c0195d9-7d71-4e30-b304-6e6819229152,-144.0,least_queue, 1 req69 variant 1 req69 variant 1 req69 variant 1 req69 variant 1 req69 variant 1,29.226102982647717,worker-0
+88,693.1665450101718,32,625.8927810122259,False,88,2,638c3427-1bee-485f-bc13-3d5cfd15980b,-136.0,least_queue," 2 req70 variant 2 req70 variant 2
+
+It seems like you're asking about a specific question or problem related to operating systems,",39.320717012742534,worker-0
+88,651.5310340037104,32,622.7600900165271,False,88,4,bc45967d-3986-4744-a68f-46cf69606ad2,-136.0,least_queue, 3 req71 variant 3 req71 variant 3 req71 variant 3 req71 variant 3 req71 variant 3,37.41255000932142,worker-0
+88,692.1983590000309,32,624.4915209827013,False,88,3,4160270f-6a66-4111-a67e-99070fa40f25,-136.0,least_queue, 4 req72 variant 4 req72 variant 4 req72 variant 4 req72 variant 4 req72 variant 4,38.13778798212297,worker-0
+88,692.6948999753222,32,622.7697450085543,False,88,5,140d9d55-ca3c-47fa-a0e8-5e60190fc0ce,-136.0,least_queue, 5 req73 variant 5 req73 variant 5 req73 variant 5 req73 variant 5 req73 variant 5,36.550976015860215,worker-0
+80,584.901455004001,32,544.3600729922764,True,88,1,605cee4f-fecd-42e8-9f5b-c2e89b5c0ee9,-144.0,least_queue, 6 req74 variant 6 req74 variant 6 req74 variant 6 req74 variant 6 req74 variant 6,26.584165985696018,worker-1
+80,568.192332983017,32,550.6984130188357,True,88,1,160fdb09-7f73-4d80-b4bd-a950ebb92042,-144.0,least_queue, 7 req75 variant 7 req75 variant 7 req75 variant 7 req75 variant 7 req75 variant 7,33.028225996531546,worker-1
+80,585.7950079953298,32,545.5941290128976,True,88,2,49de54b3-2e52-47ae-995f-b920ec71022f,-136.0,least_queue, 8 req76 variant 8 req76 variant 8 req76 variant 8 req76 variant 8 req76 variant 8,28.480474022217095,worker-1
+80,561.8692449934315,32,542.9041489842348,True,88,3,21388f1d-2321-44b2-9291-562ae98680d7,-128.0,least_queue," 9 req77 variant 9 req77 variant 9
+
+It seems like you're asking about a specific aspect of machine learning inference, particularly related",28.182522975839674,worker-1
+88,691.2242360122036,32,608.5522430075798,False,88,0,9ad1eafe-3fd2-4207-b34c-e80b775430a1,-152.0,least_queue," 10 req78 variant 10 req78 variant 10 req78 variant 10
+
+It seems like you're asking about",26.860203011892736,worker-0
+88,681.6939340205863,32,625.1938639907166,False,88,1,9d753e91-6957-4df9-8b98-a4440b45fd2d,-152.0,least_queue, 11 req79 variant 11 req79 variant 11 req79 variant 11 req79 variant 11 req,43.59929199563339,worker-0

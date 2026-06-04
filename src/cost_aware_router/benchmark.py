@@ -22,10 +22,19 @@ TOPICS = [
 ]
 
 
-def repeated_prefix_workload(total: int, prefix_tokens: int, suffix_tokens: int) -> list[str]:
+def repeated_prefix_workload(
+    total: int,
+    prefix_tokens: int,
+    suffix_tokens: int,
+    *,
+    prefix_groups: int,
+    start_index: int = 0,
+) -> list[str]:
     prompts: list[str] = []
-    for i in range(total):
-        topic = TOPICS[i % len(TOPICS)]
+    groups = max(1, min(prefix_groups, len(TOPICS)))
+    for offset in range(total):
+        i = start_index + offset
+        topic = TOPICS[i % groups]
         base = (topic.split() * ((prefix_tokens // len(topic.split())) + 1))[:prefix_tokens]
         suffix = [f"req{i}", "variant", str(i % 17)] * ((suffix_tokens // 3) + 1)
         prompts.append(" ".join(base + suffix[:suffix_tokens]))
@@ -42,17 +51,55 @@ async def run_one(client: httpx.AsyncClient, router_url: str, prompt: str, max_t
     return row
 
 
+async def run_prompts(
+    client: httpx.AsyncClient,
+    router_url: str,
+    prompts: list[str],
+    *,
+    concurrency: int,
+    max_tokens: int,
+) -> list[dict[str, object]]:
+    semaphore = asyncio.Semaphore(concurrency)
+
+    async def guarded(prompt: str) -> dict[str, object]:
+        async with semaphore:
+            return await run_one(client, router_url, prompt, max_tokens)
+
+    return await asyncio.gather(*(guarded(prompt) for prompt in prompts))
+
+
 async def run_benchmark(args: argparse.Namespace) -> list[dict[str, object]]:
-    prompts = repeated_prefix_workload(args.requests, args.prefix_tokens, args.suffix_tokens)
+    warmup_prompts = repeated_prefix_workload(
+        args.warmup_requests,
+        args.prefix_tokens,
+        args.suffix_tokens,
+        prefix_groups=args.prefix_groups,
+    )
+    prompts = repeated_prefix_workload(
+        args.requests,
+        args.prefix_tokens,
+        args.suffix_tokens,
+        prefix_groups=args.prefix_groups,
+        start_index=args.warmup_requests,
+    )
     limits = httpx.Limits(max_connections=args.concurrency * 2, max_keepalive_connections=args.concurrency)
     async with httpx.AsyncClient(timeout=args.timeout, limits=limits) as client:
-        semaphore = asyncio.Semaphore(args.concurrency)
-
-        async def guarded(prompt: str) -> dict[str, object]:
-            async with semaphore:
-                return await run_one(client, args.router_url, prompt, args.max_tokens)
-
-        return await asyncio.gather(*(guarded(prompt) for prompt in prompts))
+        if warmup_prompts:
+            print(f"warming cache with {len(warmup_prompts)} requests...")
+            await run_prompts(
+                client,
+                args.router_url,
+                warmup_prompts,
+                concurrency=args.warmup_concurrency,
+                max_tokens=args.warmup_max_tokens,
+            )
+        return await run_prompts(
+            client,
+            args.router_url,
+            prompts,
+            concurrency=args.concurrency,
+            max_tokens=args.max_tokens,
+        )
 
 
 def summarize(rows: list[dict[str, object]]) -> dict[str, float | int]:
@@ -101,8 +148,12 @@ def main() -> None:
     parser.add_argument("--requests", type=int, default=80)
     parser.add_argument("--concurrency", type=int, default=8)
     parser.add_argument("--prefix-tokens", type=int, default=80)
+    parser.add_argument("--prefix-groups", type=int, default=len(TOPICS))
     parser.add_argument("--suffix-tokens", type=int, default=8)
     parser.add_argument("--max-tokens", type=int, default=16)
+    parser.add_argument("--warmup-requests", type=int, default=0)
+    parser.add_argument("--warmup-concurrency", type=int, default=1)
+    parser.add_argument("--warmup-max-tokens", type=int, default=1)
     parser.add_argument("--timeout", type=float, default=180.0)
     parser.add_argument("--output-dir", type=Path, default=Path("results"))
     parser.add_argument("--label", default="benchmark")

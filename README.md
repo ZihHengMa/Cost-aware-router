@@ -43,7 +43,7 @@ Each request prompt is split into deterministic routing tokens. The router compu
 - `round_robin`: alternate workers.
 - `least_queue`: choose the worker with the smallest observed queue.
 - `cache_aware`: choose the worker with the longest prefix-cache match.
-- `cost_aware`: minimize `queue_weight * queue_depth + prefill_weight * uncached_tokens - cache_hit_bonus * hit_tokens`.
+- `cost_aware`: preserve near-best prefix locality unless the queue gap is large, then minimize `queue_weight * queue_depth + prefill_weight * uncached_tokens - cache_hit_bonus * hit_tokens`.
 - `prefill_scratch`: choose the least-queued worker but force every request to pay full prefill with zero prefix-cache reuse.
 
 Partial prefix matching is counted when the worker can reuse some, but not all, prompt tokens.
@@ -135,10 +135,18 @@ python -m cost_aware_router.benchmark --label qwen25_cache_aware --requests 80 -
 
 ./scripts/run_router.sh cost_aware
 python -m cost_aware_router.benchmark --label qwen25_cost_aware --requests 80 --concurrency 8 --max-tokens 32
+```
 
+Run `prefill_scratch` separately after restarting vLLM with prefix caching disabled:
+
+```bash
+VLLM_ENABLE_PREFIX_CACHING=0 ./scripts/run_vllm_servers.sh
+ADAPTER_ENABLE_PREFIX_CACHE=0 ./scripts/run_vllm_adapters.sh
 ./scripts/run_router.sh prefill_scratch
 python -m cost_aware_router.benchmark --label qwen25_prefill_scratch --requests 80 --concurrency 8 --max-tokens 32
 ```
+
+If `prefill_scratch` is run while vLLM was started with `VLLM_ENABLE_PREFIX_CACHING=1`, it is not a true scratch baseline because vLLM may still reuse its internal prefix cache.
 
 Then plot summaries:
 
@@ -170,32 +178,65 @@ This creates a scheduling tradeoff:
 - `cache_aware` maximizes prefix reuse, but can overload the worker with the hottest cached prefix.
 - `cost_aware` can choose a partial cache hit on a less busy worker when that has lower total cost than waiting behind a long queue.
 
+The default cost-aware router is locality-guarded:
+
+```text
+queue_weight = 8.0
+prefill_weight = 1.0
+cache_hit_bonus = 2.0
+locality_threshold = 0.90
+locality_queue_slack = 2
+```
+
+This means cost-aware will not give up a near-best prefix match for only a tiny queue advantage.
+It only trades cache locality for queue relief when the better-cache worker is meaningfully more loaded.
+
 Use a workload where prefill dominates decode:
 
 ```bash
 python -m cost_aware_router.benchmark \
   --label cost_aware \
-  --requests 160 \
-  --concurrency 16 \
-  --prefix-tokens 512 \
+  --requests 120 \
+  --concurrency 8 \
+  --prefix-tokens 2048 \
+  --prefix-groups 2 \
   --suffix-tokens 8 \
-  --max-tokens 8
+  --max-tokens 1 \
+  --warmup-requests 32 \
+  --warmup-concurrency 1 \
+  --timeout 900
 ```
+
+The warmup phase is not included in the reported CSV summary.
+It exists to put the repeated long prefixes into the vLLM prefix cache before measuring TTFT.
+This is important because a cold-cache run mostly measures first-touch prefill, where every policy looks similar.
 
 Run the same benchmark for all policies:
 
 ```bash
 ./scripts/run_router.sh round_robin
-python -m cost_aware_router.benchmark --label rr_win_case --requests 160 --concurrency 16 --prefix-tokens 512 --suffix-tokens 8 --max-tokens 8
+python -m cost_aware_router.benchmark --label rr_prefill_sensitive --requests 120 --concurrency 8 --prefix-tokens 2048 --prefix-groups 2 --suffix-tokens 8 --max-tokens 1 --warmup-requests 32 --warmup-concurrency 1 --timeout 900 --output-dir results/prefill_sensitive
 
 ./scripts/run_router.sh least_queue
-python -m cost_aware_router.benchmark --label least_queue_win_case --requests 160 --concurrency 16 --prefix-tokens 512 --suffix-tokens 8 --max-tokens 8
+python -m cost_aware_router.benchmark --label least_queue_prefill_sensitive --requests 120 --concurrency 8 --prefix-tokens 2048 --prefix-groups 2 --suffix-tokens 8 --max-tokens 1 --warmup-requests 32 --warmup-concurrency 1 --timeout 900 --output-dir results/prefill_sensitive
 
 ./scripts/run_router.sh cache_aware
-python -m cost_aware_router.benchmark --label cache_aware_win_case --requests 160 --concurrency 16 --prefix-tokens 512 --suffix-tokens 8 --max-tokens 8
+python -m cost_aware_router.benchmark --label cache_aware_prefill_sensitive --requests 120 --concurrency 8 --prefix-tokens 2048 --prefix-groups 2 --suffix-tokens 8 --max-tokens 1 --warmup-requests 32 --warmup-concurrency 1 --timeout 900 --output-dir results/prefill_sensitive
 
 ./scripts/run_router.sh cost_aware
-python -m cost_aware_router.benchmark --label cost_aware_win_case --requests 160 --concurrency 16 --prefix-tokens 512 --suffix-tokens 8 --max-tokens 8
+python -m cost_aware_router.benchmark --label cost_aware_prefill_sensitive --requests 120 --concurrency 8 --prefix-tokens 2048 --prefix-groups 2 --suffix-tokens 8 --max-tokens 1 --warmup-requests 32 --warmup-concurrency 1 --timeout 900 --output-dir results/prefill_sensitive
+```
+
+You can make cost-aware more cache-preserving with:
+
+```bash
+./scripts/run_router.sh cost_aware --queue-weight 4 --cache-hit-bonus 3 --locality-threshold 0.95 --locality-queue-slack 1
+```
+
+You can make it more load-balancing with:
+
+```bash
+./scripts/run_router.sh cost_aware --queue-weight 12 --cache-hit-bonus 1.5 --locality-queue-slack 3
 ```
 
 For the cleanest comparison, restart the router between policies.
@@ -205,7 +246,7 @@ Use separate metadata DB files with `--metadata-db` if you want per-policy reque
 Then plot:
 
 ```bash
-python -m cost_aware_router.analyze --results-dir results --output results/win_case_summary.png
+python -m cost_aware_router.analyze --results-dir results/prefill_sensitive --output results/prefill_sensitive/win_case_summary.png
 ```
 
 For the report, the expected pattern is:
@@ -267,8 +308,8 @@ order by route_policy, worker_id
 PY
 ```
 
-If cost-aware still does not win, the likely reason is that the cost weights do not match the actual vLLM timing on the machine.
-In that case, present the result as calibration evidence: cost-aware routing is a framework, but it needs the queue cost and prefill cost weights to reflect the serving environment.
+If cost-aware still does not win, tune `queue_weight`, `cache_hit_bonus`, `locality_threshold`, and `locality_queue_slack`.
+For your current repeated-prefix experiment, start with the cache-preserving command above because it prevents cost-aware from choosing too many partial-prefix routes.
 
 ## LMCache Shared Backend Experiment
 
@@ -284,6 +325,15 @@ In the report, treat this as a model of an LMCache-style shared backend: cached 
 ## Cost-aware vs Prefill-from-scratch Baseline
 
 Use this comparison when you want to show the benefit of your cost-aware infrastructure against a baseline where every request must prefill from scratch.
+This experiment intentionally makes prefill dominate TTFT:
+
+```text
+long repeated prefix: 2048 routing tokens
+few prefix groups: 2
+short suffix: 8 routing tokens
+short generation: 1 token
+warmup: 32 requests, excluded from measured results
+```
 
 Run the two experiments separately:
 
@@ -292,8 +342,19 @@ Cost-aware with prefix caching:
 ```bash
 VLLM_ENABLE_PREFIX_CACHING=1 ./scripts/run_vllm_servers.sh
 ADAPTER_ENABLE_PREFIX_CACHE=1 ./scripts/run_vllm_adapters.sh
-./scripts/run_router.sh cost_aware
-python -m cost_aware_router.benchmark --label qwen25_cost_aware --requests 80 --concurrency 8 --max-tokens 32
+./scripts/run_router.sh cost_aware --queue-weight 4 --cache-hit-bonus 3 --locality-threshold 0.95 --locality-queue-slack 1
+python -m cost_aware_router.benchmark \
+  --label qwen25_cost_aware_prefill_sensitive \
+  --requests 120 \
+  --concurrency 8 \
+  --prefix-tokens 2048 \
+  --prefix-groups 2 \
+  --suffix-tokens 8 \
+  --max-tokens 1 \
+  --warmup-requests 32 \
+  --warmup-concurrency 1 \
+  --timeout 900 \
+  --output-dir results/prefill_sensitive
 ```
 
 Scratch baseline with prefix caching disabled:
@@ -302,13 +363,24 @@ Scratch baseline with prefix caching disabled:
 VLLM_ENABLE_PREFIX_CACHING=0 ./scripts/run_vllm_servers.sh
 ADAPTER_ENABLE_PREFIX_CACHE=0 ./scripts/run_vllm_adapters.sh
 ./scripts/run_router.sh prefill_scratch
-python -m cost_aware_router.benchmark --label qwen25_prefill_scratch --requests 80 --concurrency 8 --max-tokens 32
+python -m cost_aware_router.benchmark \
+  --label qwen25_prefill_scratch_prefill_sensitive \
+  --requests 120 \
+  --concurrency 8 \
+  --prefix-tokens 2048 \
+  --prefix-groups 2 \
+  --suffix-tokens 8 \
+  --max-tokens 1 \
+  --warmup-requests 32 \
+  --warmup-concurrency 1 \
+  --timeout 900 \
+  --output-dir results/prefill_sensitive
 ```
 
 Then compare:
 
 ```bash
-python -m cost_aware_router.analyze --results-dir results --output results/qwen25_cost_aware_vs_scratch.png
+python -m cost_aware_router.analyze --results-dir results/prefill_sensitive --output results/prefill_sensitive/qwen25_cost_aware_vs_scratch.png
 ```
 
 In `request_metadata`, the scratch baseline should show `estimated_prefix_hit_tokens = 0`, `cache_hit_tokens = 0`, and `estimated_prefill_tokens = prompt_tokens`.

@@ -21,15 +21,19 @@ class RouterPolicyEngine:
         workers: list[WorkerView],
         policy: RoutePolicy,
         *,
-        queue_weight: float = 24.0,
+        queue_weight: float = 8.0,
         prefill_weight: float = 1.0,
-        cache_hit_bonus: float = 1.2,
+        cache_hit_bonus: float = 2.0,
+        locality_threshold: float = 0.90,
+        locality_queue_slack: int = 2,
     ) -> None:
         self.workers = workers
         self.policy = policy
         self.queue_weight = queue_weight
         self.prefill_weight = prefill_weight
         self.cache_hit_bonus = cache_hit_bonus
+        self.locality_threshold = locality_threshold
+        self.locality_queue_slack = locality_queue_slack
         self._rr_index = 0
 
     def choose(self, prompt: str) -> WorkerCandidate:
@@ -44,7 +48,29 @@ class RouterPolicyEngine:
             return min(candidates, key=lambda c: (c.queue_depth, c.worker_id))
         if self.policy == RoutePolicy.CACHE_AWARE:
             return min(candidates, key=lambda c: (-c.longest_prefix_hit, c.queue_depth, c.worker_id))
+        if self.policy == RoutePolicy.COST_AWARE:
+            return self._choose_cost_aware(candidates)
         return min(candidates, key=lambda c: (c.estimated_cost, c.queue_depth, c.worker_id))
+
+    def _choose_cost_aware(self, candidates: list[WorkerCandidate]) -> WorkerCandidate:
+        max_hit = max(c.longest_prefix_hit for c in candidates)
+        min_queue = min(c.queue_depth for c in candidates)
+
+        if max_hit > 0:
+            min_good_hit = max(1, int(max_hit * self.locality_threshold))
+            locality_candidates = [
+                c
+                for c in candidates
+                if c.longest_prefix_hit >= min_good_hit
+                and c.queue_depth <= min_queue + self.locality_queue_slack
+            ]
+            if locality_candidates:
+                return min(
+                    locality_candidates,
+                    key=lambda c: (c.estimated_cost, c.queue_depth, -c.longest_prefix_hit, c.worker_id),
+                )
+
+        return min(candidates, key=lambda c: (c.estimated_cost, c.queue_depth, -c.longest_prefix_hit, c.worker_id))
 
     def candidates(self, prompt: str) -> list[WorkerCandidate]:
         tokens = tokenize(prompt)

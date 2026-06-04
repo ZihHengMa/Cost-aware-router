@@ -26,6 +26,11 @@ class CostAwareRouter:
         *,
         lmcache_shared: bool = False,
         metadata_db: str | Path = "data/router_metadata.sqlite",
+        queue_weight: float = 8.0,
+        prefill_weight: float = 1.0,
+        cache_hit_bonus: float = 2.0,
+        locality_threshold: float = 0.90,
+        locality_queue_slack: int = 2,
         timeout_s: float = 120.0,
     ) -> None:
         shared_cache = PrefixCache() if lmcache_shared else None
@@ -37,7 +42,15 @@ class CostAwareRouter:
             )
             for idx, url in enumerate(worker_urls)
         ]
-        self.engine = RouterPolicyEngine(self.workers, policy)
+        self.engine = RouterPolicyEngine(
+            self.workers,
+            policy,
+            queue_weight=queue_weight,
+            prefill_weight=prefill_weight,
+            cache_hit_bonus=cache_hit_bonus,
+            locality_threshold=locality_threshold,
+            locality_queue_slack=locality_queue_slack,
+        )
         self.policy = policy
         self.lmcache_shared = lmcache_shared
         self.disable_prefix_cache = policy == RoutePolicy.PREFILL_SCRATCH
@@ -131,6 +144,13 @@ class CostAwareRouter:
             "routed_requests": counts,
             "traffic_share": shares,
             "imbalance_ratio": max(counts.values(), default=0) / max(min(counts.values(), default=1), 1),
+            "cost_model": {
+                "queue_weight": self.engine.queue_weight,
+                "prefill_weight": self.engine.prefill_weight,
+                "cache_hit_bonus": self.engine.cache_hit_bonus,
+                "locality_threshold": self.engine.locality_threshold,
+                "locality_queue_slack": self.engine.locality_queue_slack,
+            },
             "metadata": self.metadata_store.stats(),
         }
 
@@ -174,6 +194,11 @@ def main() -> None:
     parser.add_argument("--policy", choices=[p.value for p in RoutePolicy], default=RoutePolicy.COST_AWARE.value)
     parser.add_argument("--lmcache-shared", action="store_true")
     parser.add_argument("--metadata-db", default="data/router_metadata.sqlite")
+    parser.add_argument("--queue-weight", type=float, default=8.0)
+    parser.add_argument("--prefill-weight", type=float, default=1.0)
+    parser.add_argument("--cache-hit-bonus", type=float, default=2.0)
+    parser.add_argument("--locality-threshold", type=float, default=0.90)
+    parser.add_argument("--locality-queue-slack", type=int, default=2)
     args = parser.parse_args()
 
     if len(args.worker) != 2:
@@ -183,6 +208,11 @@ def main() -> None:
         RoutePolicy(args.policy),
         lmcache_shared=args.lmcache_shared,
         metadata_db=args.metadata_db,
+        queue_weight=args.queue_weight,
+        prefill_weight=args.prefill_weight,
+        cache_hit_bonus=args.cache_hit_bonus,
+        locality_threshold=args.locality_threshold,
+        locality_queue_slack=args.locality_queue_slack,
     )
     uvicorn.run(build_app(router), host=args.host, port=args.port)
 

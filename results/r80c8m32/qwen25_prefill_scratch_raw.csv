@@ -1,0 +1,117 @@
+cache_hit_tokens,client_wall_ms,generated_tokens,latency_ms,partial_match,prompt_tokens,queue_depth_at_start,request_id,route_cost,route_policy,text,ttft_ms,worker_id
+0,705.452612019144,32,640.3173650032841,False,88,0,060068f6-653a-49f3-8b86-a5fc34cb4294,88.0,prefill_scratch, 0 req0 variant 0 req0 variant 0 req0 variant 0 req0 variant 0 req0 variant 0 req0 variant 0,68.96939798025414,worker-0
+0,791.7531739803962,32,651.839407015359,False,88,1,ca899e6c-a050-4a63-bf45-805756af5420,88.0,prefill_scratch, 1 req1 variant 1 req1 variant 1 req1 variant 1 req1 variant 1 req1 variant 1 req1 variant 1,129.39768601791002,worker-0
+0,793.3753170073032,32,647.8885500109755,False,88,5,0a824a7c-2e26-41ea-917f-c92a8db735ad,88.0,prefill_scratch, 2 req2 variant 2 req2 variant 2 req2 variant 2 req2 variant 2 req2 variant 2 req2 variant 2,125.6075410055928,worker-0
+0,792.5023169955239,32,647.912857006304,False,88,6,a8226e32-16ae-4639-a431-a1532b463296,88.0,prefill_scratch, 3 req3 variant 3 req3 variant 3 req3 variant 3 req3 variant 3 req3 variant 3 req3 variant 3,125.33332701423205,worker-0
+0,792.3543119977694,32,650.6125810265075,False,88,3,cef1edf4-804f-466c-94c2-314da501c4e5,88.0,prefill_scratch, 4 req4 variant 4 req4 variant 4 req4 variant 4 req4 variant 4 req4 variant 4 req4 variant 4,128.078790003201,worker-0
+0,792.2117370180786,32,647.2454070171807,False,88,7,2f18d849-ac2d-4e78-91ea-e82f106bb067,88.0,prefill_scratch," 5 req5 variant 5 req5 variant 5
+
+It seems like you're asking about a specific aspect of machine learning inference, particularly related to prefix",124.85440200543962,worker-0
+0,792.090814007679,32,649.4642730103806,False,88,4,ef0557fe-1cd0-44cc-a482-72ae9ea7e949,88.0,prefill_scratch, 6 req6 variant 6 req6 variant 6 req6 variant 6 req6 variant 6 req6 variant 6 req6 variant 6,126.96197998593561,worker-0
+0,791.971464001108,32,651.5579310071189,False,88,2,16f1c3ee-e642-4c1b-bf80-c9334999ca2a,88.0,prefill_scratch, 7 req7 variant 7 req7 variant 7 req7 variant 7 req7 variant 7 req7 variant 7 req7 variant 7,128.9318299968727,worker-0
+0,674.5215450064279,32,550.0016789883375,False,88,0,b31a283c-c269-4112-8133-6d18d86cbe65,88.0,prefill_scratch, 8 req8 variant 8 req8 variant 8 req8 variant 8 req8 variant 8 req8 variant 8 req8 variant 8,26.38927599764429,worker-0
+0,628.4448420046829,32,600.7999760040548,False,88,0,59e25a93-6a94-45e5-8e28-ecf1a69df10b,88.0,prefill_scratch, 9 req9 variant 9 req9 variant 9 req9 variant 9 req9 variant 9 req9 variant 9 req9 variant 9,53.85690397815779,worker-1
+0,615.5692009779159,32,551.8471809918992,False,88,2,93cdf16a-cef7-4147-824e-d1d52706d8a0,96.0,prefill_scratch," 10 req10 variant 10 req10 variant 10
+
+Certainly! Let's break down the key concepts and terms you've mentioned",36.29207899211906,worker-0
+0,615.1134009996895,32,552.0598920120392,False,88,1,db01a2f5-d148-4eac-b1ee-247d884c7773,96.0,prefill_scratch, 11 req11 variant 11 req11 variant 11 req11 variant 11 req11 variant 11 req,36.837935011135414,worker-0
+0,694.2878199915867,32,613.4268190071452,False,88,2,a892a13a-e900-46c9-95b2-fc32b91c04b7,88.0,prefill_scratch, 12 req12 variant 12 req12 variant 12 req12 variant 12 req12 variant 12 req,91.12777400878258,worker-1
+0,692.8836260049138,32,612.3066550062504,False,88,4,998a5d46-c284-42e3-b75a-608471bf99e5,88.0,prefill_scratch, 13 req13 variant 13 req13 variant 13 req13 variant 13 req13 variant 13 req,90.11874799034558,worker-1
+0,692.8816840227228,32,612.471183994785,False,88,3,c385e3bd-27e7-4d3f-9bdf-67b4605796d3,88.0,prefill_scratch," 14 req14 variant 14 req14 variant 14
+
+# Operating Systems: Queue, Semaphore, Thread, Process, Memory,",90.70010701543652,worker-1
+0,693.9372710185125,32,612.9452500026673,False,88,1,3540ef55-9d8a-408a-9009-00effc8d46e1,88.0,prefill_scratch, 15 req15 variant 15 req15 variant 15 req15 variant 15 req15 variant 15 req,91.14535001572222,worker-1
+0,797.5591970025562,32,569.5404209836852,False,88,3,ed5bf955-bf49-4307-aaee-2d9d1caefeb6,88.0,prefill_scratch, 16 req16 variant 16 req16 variant 16 req16 variant 16 req16 variant 16 req,52.543216006597504,worker-0
+0,673.7667520064861,32,558.6186459986493,False,88,0,7c28aca9-0f9f-4419-9a8e-4a1c0303b46e,88.0,prefill_scratch, 0 req17 variant 0 req17 variant 0 req17 variant 0 req17 variant 0 req17 variant 0,26.179700013017282,worker-0
+0,769.5606460038107,32,570.7787249993999,False,88,2,f1aa2fbd-5332-46fd-8192-cf8d10adbbe5,88.0,prefill_scratch," 1 req18 variant 1 req18 variant 1 req18 variant 1
+
+# Operating Systems: Queue, Semaphore, Thread, Process",54.287254984956235,worker-0
+0,755.0863969954662,32,573.9550100115594,False,88,1,b06df1e7-541a-471a-87c7-d9aff0ab8702,88.0,prefill_scratch, 2 req19 variant 2 req19 variant 2 req19 variant 2 req19 variant 2 req19 variant 2,57.27635699440725,worker-0
+0,689.2742040217854,32,558.4946490125731,False,88,0,26eb9e59-3ed2-417a-a533-6091d105c109,88.0,prefill_scratch, 3 req20 variant 3 req20 variant 3 req20 variant 3 req20 variant 3 req20 variant 3,27.69018500111997,worker-1
+0,688.8763220049441,32,574.2998020141385,False,88,1,356a538f-79f2-4ccc-801c-7903313aeab9,88.0,prefill_scratch, 4 req21 variant 4 req21 variant 4 req21 variant 4 req21 variant 4 req21 variant 4,58.32805999671109,worker-1
+0,690.7380289922003,32,574.2804030014668,False,88,2,8d58e61e-3835-47f4-b04e-8d10f4f57c07,88.0,prefill_scratch, 5 req22 variant 5 req22 variant 5 req22 variant 5 req22 variant 5 req22 variant 5,58.14248899696395,worker-1
+0,690.3643940167967,32,574.3461210222449,False,88,3,5deeb4d7-f1dc-443b-a0c5-2a2ddb498611,88.0,prefill_scratch, 6 req23 variant 6 req23 variant 6 req23 variant 6 req23 variant 6 req23 variant 6,58.1203949986957,worker-1
+0,708.8056160137057,32,572.6257179921959,False,88,0,57ef7c2d-fe3e-4d8a-911c-8f19b6b11e2f,88.0,prefill_scratch, 7 req24 variant 7 req24 variant 7 req24 variant 7 req24 variant 7 req24 variant 7,24.553819006541744,worker-0
+0,582.5046149839181,32,541.1503060022369,False,88,0,a2e21211-27e9-4779-8d86-db827c34a1ed,88.0,prefill_scratch," 8 req25 variant 8 req25 variant 8
+
+It seems like you're asking about a specific aspect of machine learning inference, particularly related",25.33340800437145,worker-1
+0,613.8489389850292,32,551.8969959812239,False,88,1,6d264d03-1b17-45d7-a095-d6ff28839680,88.0,prefill_scratch, 9 req26 variant 9 req26 variant 9 req26 variant 9 req26 variant 9 req26 variant 9,39.712503988994285,worker-1
+0,679.8615129955579,32,576.9794649968389,False,88,1,36ba1346-52b9-485c-9ae3-0ddc9aa340d5,96.0,prefill_scratch, 10 req27 variant 10 req27 variant 10 req27 variant 10 req27 variant 10 req,59.083651984110475,worker-0
+0,679.3250820192043,32,575.6057869875804,False,88,4,f24f10cf-4b9f-40f0-81da-e311962de164,96.0,prefill_scratch, 11 req28 variant 11 req28 variant 11 req28 variant 11 req28 variant 11 req,57.60830998769961,worker-0
+0,680.5911980045494,32,575.9774690086488,False,88,2,4025ec57-3f5f-41f7-981c-7f40b615187a,96.0,prefill_scratch," 12 req29 variant 12 req29 variant 12
+
+It seems like you're asking about a specific aspect of machine learning inference",58.26570399221964,worker-0
+0,678.4897769975942,32,575.4360900027677,False,88,5,34ecfb70-3531-4456-9de8-560e8a8f1c55,96.0,prefill_scratch, 13 req30 variant 13 req30 variant 13 req30 variant 13 req30 variant 13 req,57.36506200628355,worker-0
+0,678.3230949949939,32,575.8892050071154,False,88,3,26f02c1b-7859-4f1b-b9ac-1c4e6473ec22,96.0,prefill_scratch, 14 req31 variant 14 req31 variant 14 req31 variant 14 req31 variant 14 req,57.93690701830201,worker-0
+0,705.1200889982283,32,553.9558219898026,False,88,0,164087ab-5a0c-4f40-bd2c-704871f58a2f,88.0,prefill_scratch, 15 req32 variant 15 req32 variant 15 req32 variant 15 req32 variant 15 req,35.07198300212622,worker-0
+0,655.0476410193369,32,552.86957800854,False,88,1,a39083c8-ca7d-4bef-9b80-7294fd165d6c,88.0,prefill_scratch, 16 req33 variant 16 req33 variant 16 req33 variant 16 req33 variant 16 req,34.30514200590551,worker-0
+0,700.1673149934504,32,567.8841449844185,False,88,2,b5e40d30-056f-4d8d-8053-fa74184f55c4,88.0,prefill_scratch," 0 req34 variant 0 req34 variant 0
+
+# Operating Systems: Queue, Semaphore, Thread, Process, Memory, Scheduling,",53.01060399506241,worker-0
+0,682.875102997059,32,587.3270200099796,False,88,1,8143a588-086a-4f5c-af2e-b1852bc73ccf,88.0,prefill_scratch, 1 req35 variant 1 req35 variant 1 req35 variant 1 req35 variant 1 req35 variant 1,69.59095899946988,worker-1
+0,681.8802680063527,32,586.0024460125715,False,88,4,ce319813-9e3b-48f0-9e9e-ede914e36168,88.0,prefill_scratch, 2 req36 variant 2 req36 variant 2 req36 variant 2 req36 variant 2 req36 variant 2,67.97383198863827,worker-1
+0,682.1442170185037,32,585.9887050173711,False,88,3,0315b624-120a-4e18-aa34-dd358f987642,88.0,prefill_scratch, 3 req37 variant 3 req37 variant 3 req37 variant 3 req37 variant 3 req37 variant 3,68.25848302105442,worker-1
+0,681.3931210199371,32,587.1768330107443,False,88,2,092ec475-c27d-4ebb-941d-61e5f1f2620c,88.0,prefill_scratch," 4 req38 variant 4 req38 variant 4 req38 variant 4
+
+It seems like you're asking about a specific problem or",68.81420401623473,worker-1
+0,632.8055990161374,32,570.9305530181155,False,88,0,e67696b1-a024-4231-9ab5-45f7e533b572,88.0,prefill_scratch, 5 req39 variant 5 req39 variant 5 req39 variant 5 req39 variant 5 req39 variant 5,29.362555011175573,worker-1
+0,712.3073940165341,32,580.1001570071094,False,88,0,54cee9bb-b324-4160-b9d8-b02c6d71b485,88.0,prefill_scratch, 6 req40 variant 6 req40 variant 6 req40 variant 6 req40 variant 6 req40 variant 6,32.48380700824782,worker-0
+0,771.8914209981449,32,593.9372309949249,False,88,5,0107ded7-756d-4cfd-bc3e-57ea3e97544a,88.0,prefill_scratch, 7 req41 variant 7 req41 variant 7 req41 variant 7 req41 variant 7 req41 variant 7,73.88017798075452,worker-0
+0,744.8885269986931,32,598.2541530102026,False,88,1,0acd719d-660f-4f08-bf2d-b746c4a83ade,88.0,prefill_scratch, 8 req42 variant 8 req42 variant 8 req42 variant 8 req42 variant 8 req42 variant 8,78.14907701686025,worker-0
+0,746.4409160020296,32,596.8782709969673,False,88,2,4f899ce9-b81b-4f73-9ae3-5343573b4350,88.0,prefill_scratch, 9 req43 variant 9 req43 variant 9 req43 variant 9 req43 variant 9 req43 variant 9,76.89021198893897,worker-0
+0,586.8532439926639,32,542.5982070155442,False,88,0,57399db7-9bfd-45ea-8080-0c15336ab555,88.0,prefill_scratch, 10 req44 variant 10 req44 variant 10 req44 variant 10 req44 variant 10 req,26.216435013338923,worker-1
+0,605.0792489841115,32,557.9583070066292,False,88,1,f4e55ff5-a896-4292-9fdc-8bf0c034a423,88.0,prefill_scratch," 11 req45 variant 11 req45 variant 11
+
+It seems like you're asking about a specific aspect of machine learning inference",45.146686024963856,worker-1
+0,696.1407329945359,32,594.1774350067135,False,88,4,ac110928-c1ee-4b62-ae30-65d458cf9ee8,88.0,prefill_scratch, 12 req46 variant 12 req46 variant 12 req46 variant 12 req46 variant 12 req,74.33757002581842,worker-0
+0,695.9373650024645,32,594.8204179876484,False,88,3,2efc92f9-4128-4e1f-9d0c-1e13b177a2ee,88.0,prefill_scratch, 13 req47 variant 13 req47 variant 13 req47 variant 13 req47 variant 13 req,74.9434269964695,worker-0
+0,696.285411977442,32,551.744054973824,False,88,0,ee5d605e-6a07-40fa-869e-92abc66eba1a,88.0,prefill_scratch, 14 req48 variant 14 req48 variant 14 req48 variant 14 req48 variant 14 req,27.975816978141665,worker-0
+0,722.7543100016192,32,567.8590669995174,False,88,1,3649d053-4d30-4f28-a63e-84ed0863088b,88.0,prefill_scratch," 15 req49 variant 15 req49 variant 15
+
+It seems like you're asking about a specific aspect of machine learning inference",52.424458001041785,worker-0
+0,710.9932349994779,32,568.0101460020524,False,88,2,1688b16f-18e0-4dce-a0d6-5c7b7214f51d,88.0,prefill_scratch," 16 req50 variant 16
+
+It seems like you're asking about a specific topic related to operating systems, but the question is cut off",52.49280098360032,worker-0
+0,631.3173570088111,32,572.787242999766,False,88,0,4c1d5194-c83d-440f-9a40-4c2a1419fc63,88.0,prefill_scratch, 0 req51 variant 0 req51 variant 0 req51 variant 0 req51 variant 0 req51 variant 0,31.367597985081375,worker-1
+0,683.789416012587,32,588.7753209972288,False,88,2,096af2c7-15c8-42b3-9d92-d5a9ff6a14ab,88.0,prefill_scratch, 1 req52 variant 1 req52 variant 1 req52 variant 1 req52 variant 1 req52 variant 1,70.74535498395562,worker-1
+0,683.313095010817,32,589.5679400127847,False,88,1,63439ae8-6fd7-4174-a96f-03273b833f6f,88.0,prefill_scratch," 2 req53 variant 2 req53 variant 2
+
+It seems like you're asking about a specific aspect of machine learning inference, particularly related",71.3628790108487,worker-1
+0,681.8651049979962,32,587.0742379920557,False,88,4,ee757e14-a60d-45ad-91d6-07879ba72050,88.0,prefill_scratch, 3 req54 variant 3 req54 variant 3 req54 variant 3 req54 variant 3 req54 variant 3,69.57947197952308,worker-1
+0,682.7402479830198,32,588.2809229951818,False,88,3,a6562f4c-7450-4f72-ad84-a5188ba286f4,88.0,prefill_scratch, 4 req55 variant 4 req55 variant 4 req55 variant 4 req55 variant 4 req55 variant 4,69.98286099405959,worker-1
+0,730.1414239918813,32,574.4842599960975,False,88,0,d01cef01-08e0-47ac-8b2d-93c7c48661b7,88.0,prefill_scratch, 5 req56 variant 5 req56 variant 5 req56 variant 5 req56 variant 5 req56 variant 5,26.75314698717557,worker-0
+0,753.0815429927316,32,587.1686500031501,False,88,3,214ab84c-cab0-48dd-aebc-d4a66f5a9e83,88.0,prefill_scratch," 6 req57 variant 6 req57 variant 6
+
+It seems like you're asking about a specific variant of a machine learning model or task",68.67945898557082,worker-0
+0,752.8067470120732,32,591.4546560088638,False,88,1,afb3e4d6-201e-4d00-a6a7-c407e5cbe034,88.0,prefill_scratch, 7 req58 variant 7 req58 variant 7 req58 variant 7 req58 variant 7 req58 variant 7,72.34180200612172,worker-0
+0,753.7928399979137,32,586.167936999118,False,88,4,46465f04-24c9-4a04-a94c-15fa46357701,88.0,prefill_scratch, 8 req59 variant 8 req59 variant 8 req59 variant 8 req59 variant 8 req59 variant 8,67.2928619896993,worker-0
+0,702.6911639841273,32,590.4272710031364,False,88,2,818c8944-1234-4a5d-98e8-aef6fea4f279,88.0,prefill_scratch, 9 req60 variant 9 req60 variant 9 req60 variant 9 req60 variant 9 req60 variant 9,71.01086800685152,worker-0
+0,702.2895659902133,32,585.5983250075951,False,88,5,a8104944-acee-4747-9c79-fe5029e3484d,88.0,prefill_scratch, 10 req61 variant 10 req61 variant 10 req61 variant 10 req61 variant 10 req,66.30657002096996,worker-0
+0,599.509443010902,32,541.648318991065,False,88,0,a8cb88a5-3b87-4535-a3c3-8e6e2b139eee,88.0,prefill_scratch," 11 req62 variant 11 req62 variant 11
+
+# Operating Systems: Queue, Semaphore, Thread, Process, Memory,",26.363696990301833,worker-1
+0,632.0009310147725,32,555.3423579840455,False,88,1,1ec9da99-3f07-4ecc-95fb-52f6f0d3d8da,88.0,prefill_scratch, 12 req63 variant 12 req63 variant 12 req63 variant 12 req63 variant 12 req,43.401134986197576,worker-1
+0,694.4279799936339,32,549.7776489937678,False,88,0,5d1b61ff-785e-4c76-af98-7b0d46216dbe,88.0,prefill_scratch, 13 req64 variant 13 req64 variant 13 req64 variant 13 req64 variant 13 req,25.666433008154854,worker-0
+0,705.5176499998197,32,559.3133070215117,False,88,1,9b0c7392-fb82-4f66-97d9-5b3beb637b58,88.0,prefill_scratch," 14 req65 variant 14 req65 variant 14
+
+It seems like you're asking about a specific aspect of machine learning inference",43.87337001389824,worker-0
+0,704.7576509939972,32,556.5414729935583,False,88,2,da1a1315-1fad-4137-9881-66b004b474fa,88.0,prefill_scratch, 15 req66 variant 15 req66 variant 15 req66 variant 15 req66 variant 15 req,41.05326300486922,worker-0
+0,684.6868229913525,32,579.9216970044654,False,88,3,4929bb54-2675-4971-b36b-19844ff1da56,88.0,prefill_scratch, 16 req67 variant 16 req67 variant 16 req67 variant 16 req67 variant 16 req,62.78021598700434,worker-1
+0,684.941408020677,32,578.8613719923887,False,88,4,14649f67-1d99-439b-9433-9766c6d611f4,88.0,prefill_scratch, 0 req68 variant 0 req68 variant 0 req68 variant 0 req68 variant 0 req68 variant 0,62.18473397893831,worker-1
+0,683.773832017323,32,580.3678210068028,False,88,2,c570ccfc-0b46-4ee6-a7b4-9939ff1eeeb8,88.0,prefill_scratch, 1 req69 variant 1 req69 variant 1 req69 variant 1 req69 variant 1 req69 variant 1,63.15776699921116,worker-1
+0,634.9441229831427,32,566.9862549984828,False,88,0,59aa0943-fd08-4801-92e7-7cc755722330,88.0,prefill_scratch," 2 req70 variant 2 req70 variant 2
+
+It seems like you're asking about a specific question or problem related to operating systems,",26.105556986294687,worker-1
+0,683.7786990217865,32,581.696211011149,False,88,1,d14752e9-9a0a-436b-b0bb-509da67a9bb5,88.0,prefill_scratch, 3 req71 variant 3 req71 variant 3 req71 variant 3 req71 variant 3 req71 variant 3,64.49503000476398,worker-1
+0,794.8106880066916,32,589.5175559853669,False,88,1,417013fe-4109-4ef8-ab51-85e8307befea,88.0,prefill_scratch, 4 req72 variant 4 req72 variant 4 req72 variant 4 req72 variant 4 req72 variant 4,71.46822000504471,worker-0
+0,683.9327019988559,32,573.084100993583,False,88,0,0992ba23-b90f-448c-9592-74e1b1de5f7a,88.0,prefill_scratch, 5 req73 variant 5 req73 variant 5 req73 variant 5 req73 variant 5 req73 variant 5,30.843715998344123,worker-0
+0,750.3247519780416,32,588.0106750119012,False,88,2,b0cf9022-8216-48b0-95f8-ef380bbe1113,88.0,prefill_scratch, 6 req74 variant 6 req74 variant 6 req74 variant 6 req74 variant 6 req74 variant 6,69.99884700053371,worker-0
+0,750.2995139802806,32,587.6446710026357,False,88,3,0517aba7-649e-4a57-bcc2-d198393167d5,88.0,prefill_scratch, 7 req75 variant 7 req75 variant 7 req75 variant 7 req75 variant 7 req75 variant 7,69.32810202124529,worker-0
+0,590.21575000952,32,548.3331540017389,False,88,0,5cf005c8-98b3-44d5-93ab-a1c769f8fc80,88.0,prefill_scratch, 8 req76 variant 8 req76 variant 8 req76 variant 8 req76 variant 8 req76 variant 8,25.575886014848948,worker-1
+0,702.7319849876221,32,587.1151610044762,False,88,4,83d7fb28-97d3-4792-b49a-d18a94028d86,88.0,prefill_scratch," 9 req77 variant 9 req77 variant 9
+
+It seems like you're asking about a specific aspect of machine learning inference, particularly related",68.6147130036261,worker-0
+0,635.3788019914646,32,562.3699019779451,False,88,2,51dd0ec7-5337-466f-8aa6-96448a167dd4,88.0,prefill_scratch," 10 req78 variant 10 req78 variant 10 req78 variant 10
+
+It seems like you're asking about",47.36848798347637,worker-1
+0,634.7537959809415,32,564.8829939891584,False,88,1,f203d808-d32e-4f64-a0c9-dc51663f37d6,88.0,prefill_scratch, 11 req79 variant 11 req79 variant 11 req79 variant 11 req79 variant 11 req,49.65364499366842,worker-1
