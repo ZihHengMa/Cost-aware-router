@@ -1,8 +1,14 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-MODEL_PATH="${MODEL_PATH:-/mnt/data1/llm_team/Qwen2.5-7B-Instruct}"
-SERVED_MODEL_NAME="${SERVED_MODEL_NAME:-Qwen2.5-7B-Instruct}"
+MODEL_PATH="${1:-${MODEL_PATH:-}}"
+if [ -z "${MODEL_PATH}" ]; then
+  echo "Usage: $0 MODEL_PATH" >&2
+  echo "Example: $0 /mnt/data1/llm_team/Qwen2.5-7B-Instruct" >&2
+  exit 1
+fi
+
+SERVED_MODEL_NAME="${SERVED_MODEL_NAME:-$(basename "${MODEL_PATH}")}"
 HOST="${VLLM_HOST:-127.0.0.1}"
 PORT_0="${VLLM_PORT_0:-8200}"
 PORT_1="${VLLM_PORT_1:-8201}"

@@ -1,0 +1,9 @@
+  --requests 120 \
+  --concurrency 8 \
+  --prefix-tokens 2048 \
+  --prefix-groups 2 \
+  --suffix-tokens 8 \
+  --max-tokens 1 \
+  --warmup-requests 32 \
+  --warmup-concurrency 1 \
+  --timeout 900

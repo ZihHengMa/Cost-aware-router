@@ -1,0 +1,16 @@
+warming cache with 40 requests...
+requests: 300
+ttft_mean_ms: 93.62294020364061
+ttft_p50_ms: 74.46772104594857
+ttft_p95_ms: 208.56851055286828
+latency_mean_ms: 1239.1989174865496
+latency_p95_ms: 1340.4522025841288
+client_wall_mean_ms: 1303.3941258769482
+cache_hit_tokens_mean: 464.2133333333333
+cache_hit_rate: 0.8059259259259259
+partial_match_rate: 0.9066666666666666
+imbalance_ratio: 1.8571428571428572
+max_worker_share: 0.65
+min_worker_share: 0.35
+worker-0_requests: 195
+worker-1_requests: 105

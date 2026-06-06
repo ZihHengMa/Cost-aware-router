@@ -1,0 +1,14 @@
+  --workload realistic \
+  --requests 300 \
+  --concurrency 16 \
+  --prefix-tokens 512 \
+  --prefix-groups 20 \
+  --hot-prefix-groups 2 \
+  --hot-share 0.85 \
+  --burst-size 4 \
+  --suffix-tokens 64 \
+  --max-tokens 64 \
+  --warmup-requests 40 \
+  --warmup-concurrency 2 \
+  --timeout 900 \
+  --output-dir results/realcase

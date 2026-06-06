@@ -31,7 +31,7 @@ class CostAwareRouter:
         cache_hit_bonus: float = 2.0,
         locality_threshold: float = 0.90,
         locality_queue_slack: int = 2,
-        timeout_s: float = 120.0,
+        timeout_s: float = 300.0,
     ) -> None:
         shared_cache = PrefixCache() if lmcache_shared else None
         self.workers = [

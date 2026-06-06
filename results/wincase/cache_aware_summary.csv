@@ -1,0 +1,2 @@
+requests,ttft_mean_ms,ttft_p50_ms,ttft_p95_ms,latency_mean_ms,latency_p95_ms,client_wall_mean_ms,cache_hit_tokens_mean,cache_hit_rate,partial_match_rate,imbalance_ratio
+120,69.50053887946221,55.82959111779928,163.15502814250067,73.54372666644242,171.1837980314158,349.4036167258552,2056.0,1.0,0.0,1.0

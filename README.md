@@ -79,7 +79,7 @@ Terminal 1, start two vLLM servers:
 
 ```bash
 source .venv/bin/activate
-VLLM_ENABLE_PREFIX_CACHING=1 ./scripts/run_vllm_servers.sh
+VLLM_ENABLE_PREFIX_CACHING=1 ./scripts/run_vllm_servers.sh /mnt/data1/llm_team/Qwen2.5-7B-Instruct
 ```
 
 Terminal 2, start the router-compatible adapters:
@@ -140,7 +140,7 @@ python -m cost_aware_router.benchmark --label qwen25_cost_aware --requests 80 --
 Run `prefill_scratch` separately after restarting vLLM with prefix caching disabled:
 
 ```bash
-VLLM_ENABLE_PREFIX_CACHING=0 ./scripts/run_vllm_servers.sh
+VLLM_ENABLE_PREFIX_CACHING=0 ./scripts/run_vllm_servers.sh /mnt/data1/llm_team/Qwen2.5-7B-Instruct
 ADAPTER_ENABLE_PREFIX_CACHE=0 ./scripts/run_vllm_adapters.sh
 ./scripts/run_router.sh prefill_scratch
 python -m cost_aware_router.benchmark --label qwen25_prefill_scratch --requests 80 --concurrency 8 --max-tokens 32
@@ -239,9 +239,118 @@ You can make it more load-balancing with:
 ./scripts/run_router.sh cost_aware --queue-weight 12 --cache-hit-bonus 1.5 --locality-queue-slack 3
 ```
 
+For more realistic mixed traffic, start by reducing or removing `cache_hit_bonus`.
+`prefill_weight * uncached_tokens` already gives a benefit to cache hits, so a large extra cache bonus can make cost-aware too sticky to one hot worker.
+If you are willing to give up about 512 cached-prefix tokens once a worker is 4 active requests busier than another worker, use a queue weight around `512 / 4 = 128`:
+
+```bash
+./scripts/run_router.sh cost_aware --queue-weight 128 --cache-hit-bonus 0 --locality-queue-slack 1
+```
+
+To stress a more realistic hot/cold request mix and make load imbalance visible:
+
+```bash
+python -m cost_aware_router.benchmark \
+  --label realistic_cost_aware \
+  --workload realistic \
+  --requests 300 \
+  --concurrency 16 \
+  --prefix-tokens 512 \
+  --prefix-groups 20 \
+  --hot-prefix-groups 2 \
+  --hot-share 0.85 \
+  --burst-size 4 \
+  --suffix-tokens 64 \
+  --max-tokens 64 \
+  --warmup-requests 40 \
+  --warmup-concurrency 2 \
+  --timeout 900 \
+  --output-dir results/realcase
+```
+
+To run the same realistic experiment automatically across all router policies, start vLLM and the worker adapters first, but do not start the router manually:
+
+```bash
+./scripts/run_realistic_experiment.sh
+```
+
+The script starts and stops one router per policy, writes per-policy metadata DBs under `data/experiment_metadata`, writes benchmark outputs under `results/realcase_auto`, and generates `results/realcase_auto/real_case_summary.png`.
+You can override the workload or policy list with environment variables:
+
+```bash
+OUTPUT_DIR=results/realcase_seed1 SEED=1 ./scripts/run_realistic_experiment.sh
+POLICIES="least_queue cache_aware cost_aware" ./scripts/run_realistic_experiment.sh
+COST_AWARE_ROUTER_ARGS="--queue-weight 128 --cache-hit-bonus 0 --locality-queue-slack 1" ./scripts/run_realistic_experiment.sh
+```
+
+To automatically search for a stronger default cost-aware setting, use the tuner:
+
+```bash
+./scripts/tune_cost_aware_params.sh
+```
+
+The tuner starts one router at a time, runs baseline policies and cost-aware candidates across multiple seeds, then ranks candidates by `ttft_p95_ms`.
+It writes:
+
+```text
+results/cost_aware_tuning/cost_aware_tuning_report.csv
+results/cost_aware_tuning/best_cost_aware_command.sh
+```
+
+For a quicker first pass:
+
+```bash
+./scripts/tune_cost_aware_params.sh \
+  --seeds 0,1 \
+  --queue-weights 64,128 \
+  --cache-hit-bonuses 0,0.5 \
+  --locality-queue-slacks 1 \
+  --locality-thresholds 0.9
+```
+
+For a wider search:
+
+```bash
+./scripts/tune_cost_aware_params.sh \
+  --queue-weights 32,64,96,128,192,256 \
+  --cache-hit-bonuses 0,0.25,0.5,1 \
+  --locality-queue-slacks 1,2 \
+  --locality-thresholds 0.85,0.9,0.95
+```
+
+Use the tuner to choose a candidate, then validate that candidate with full vLLM restarts in separate runs before reporting it as the final setting.
+The tuner changes request suffix IDs between candidates to avoid exact-prompt cache leakage, while keeping the same prefix distribution for each seed.
+
+To validate a tuned cost-aware setting with a full restart before every policy run:
+
+```bash
+COST_AWARE_ROUTER_ARGS="--queue-weight 128 --cache-hit-bonus 0 --locality-queue-slack 1 --locality-threshold 0.9" \
+  ./scripts/validate_tuned_full_restart.sh /mnt/data1/llm_team/Qwen2.5-7B-Instruct
+```
+
+This script runs `round_robin`, `least_queue`, `cache_aware`, and tuned `cost_aware` over the same seeds, but restarts vLLM, the worker adapters, and the router before every policy/seed run.
+It writes results to:
+
+```text
+results/full_restart_tuned/
+data/full_restart_tuned/
+```
+
+You can shrink or change the run:
+
+```bash
+SEEDS=0,1 POLICIES="least_queue cache_aware cost_aware" \
+  COST_AWARE_ROUTER_ARGS="--queue-weight 128 --cache-hit-bonus 0 --locality-queue-slack 1 --locality-threshold 0.9" \
+  ./scripts/validate_tuned_full_restart.sh /mnt/data1/llm_team/Qwen2.5-7B-Instruct
+```
+
+By default the full-restart script stops existing processes on ports `8000`, `8100`, `8101`, `8200`, and `8201`.
+Use it when those ports belong to this experiment.
+
 For the cleanest comparison, restart the router between policies.
 For real vLLM experiments, also restart the vLLM workers if you want each policy to start from the same cold-cache condition.
 Use separate metadata DB files with `--metadata-db` if you want per-policy request tables.
+If you do not restart the worker adapters between policies, exact prompt hits from a previous policy run can leak into the next result and make `cache_aware` or `round_robin` look better than they should.
 
 Then plot:
 
@@ -340,7 +449,7 @@ Run the two experiments separately:
 Cost-aware with prefix caching:
 
 ```bash
-VLLM_ENABLE_PREFIX_CACHING=1 ./scripts/run_vllm_servers.sh
+VLLM_ENABLE_PREFIX_CACHING=1 ./scripts/run_vllm_servers.sh /mnt/data1/llm_team/Qwen2.5-7B-Instruct
 ADAPTER_ENABLE_PREFIX_CACHE=1 ./scripts/run_vllm_adapters.sh
 ./scripts/run_router.sh cost_aware --queue-weight 4 --cache-hit-bonus 3 --locality-threshold 0.95 --locality-queue-slack 1
 python -m cost_aware_router.benchmark \
@@ -360,7 +469,7 @@ python -m cost_aware_router.benchmark \
 Scratch baseline with prefix caching disabled:
 
 ```bash
-VLLM_ENABLE_PREFIX_CACHING=0 ./scripts/run_vllm_servers.sh
+VLLM_ENABLE_PREFIX_CACHING=0 ./scripts/run_vllm_servers.sh /mnt/data1/llm_team/Qwen2.5-7B-Instruct
 ADAPTER_ENABLE_PREFIX_CACHE=0 ./scripts/run_vllm_adapters.sh
 ./scripts/run_router.sh prefill_scratch
 python -m cost_aware_router.benchmark \
@@ -387,7 +496,7 @@ In `request_metadata`, the scratch baseline should show `estimated_prefix_hit_to
 
 ## vLLM on Two GPUs
 
-The project runs two real vLLM instances using `/mnt/data1/llm_team/Qwen2.5-7B-Instruct`, one process per GPU.
+The project runs two real vLLM instances using the model path passed to `run_vllm_servers.sh`, one process per GPU.
 The router still talks to worker adapters on ports `8100` and `8101`; each adapter forwards requests to one vLLM OpenAI-compatible server and measures actual streaming TTFT.
 Use the setup commands above before starting the servers.
 
@@ -395,7 +504,7 @@ Terminal 1, start vLLM on GPU 0 and GPU 1:
 
 ```bash
 source .venv/bin/activate
-./scripts/run_vllm_servers.sh
+./scripts/run_vllm_servers.sh /mnt/data1/llm_team/Qwen2.5-7B-Instruct
 ```
 
 This launches:
@@ -428,9 +537,9 @@ python -m cost_aware_router.benchmark --label qwen25_7b_cost_aware --requests 80
 Useful overrides:
 
 ```bash
-GPU_0=2 GPU_1=3 ./scripts/run_vllm_servers.sh
-MAX_MODEL_LEN=4096 GPU_MEMORY_UTILIZATION=0.85 ./scripts/run_vllm_servers.sh
-EXTRA_VLLM_ARGS="--trust-remote-code" ./scripts/run_vllm_servers.sh
+GPU_0=2 GPU_1=3 ./scripts/run_vllm_servers.sh /mnt/data1/llm_team/Qwen2.5-7B-Instruct
+MAX_MODEL_LEN=4096 GPU_MEMORY_UTILIZATION=0.85 ./scripts/run_vllm_servers.sh /mnt/data1/llm_team/Qwen2.5-7B-Instruct
+EXTRA_VLLM_ARGS="--trust-remote-code" ./scripts/run_vllm_servers.sh /mnt/data1/llm_team/Qwen2.5-7B-Instruct
 ```
 
 `EXTRA_VLLM_ARGS` is passed directly to your installed `vllm serve`.

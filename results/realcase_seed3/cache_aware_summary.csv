@@ -1,0 +1,2 @@
+requests,ttft_mean_ms,ttft_p50_ms,ttft_p95_ms,latency_mean_ms,latency_p95_ms,client_wall_mean_ms,cache_hit_tokens_mean,cache_hit_rate,partial_match_rate,imbalance_ratio,max_worker_share,min_worker_share,worker-0_requests,worker-1_requests
+300,48.32148983608931,43.80955803208053,86.97050955379382,1157.7389111695811,1209.8813695600256,1214.8116399953142,570.0266666666666,0.9896296296296296,0.09333333333333334,2.1578947368421053,0.6833333333333333,0.31666666666666665,205,95
